@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/Circle.png" type="Texture" id=1]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.5
+bounce = 0.98
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 28.5762
+
+[node name="Ball" type="RigidBody2D" groups=[
+"damager",
+]]
+mass = 0.510204
+physics_material_override = SubResource( 1 )
+can_sleep = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=[
+"damager",
+]]
+shape = SubResource( 2 )
+
+[node name="Circle" type="Sprite" parent="." groups=[
+"damager",
+]]
+texture = ExtResource( 1 )

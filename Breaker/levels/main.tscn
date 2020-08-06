@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://objects/brick.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 65.9646, 184.319, -71.6972, -40.2683, 71.6972, 40.2683, 168.104, 544.954, -55.0006, 10.3126, 55.0006, -10.3126, 426.984, 334.648, -37.8129, 8.83938, 37.8129, -8.83938, 682.127, 479.834, -50.0898, 12.2769, 50.0898, -12.2769, 800.624, 212.414, -19.5364, -41.0579, 19.5364, 41.0579, 912.581, 298.249, 0, 0, 0, 0, 1081.41, 443.766 )
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 671.255, 10 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2( -50.5869, 152.074 )
+scale = Vector2( 1.2, 1 )
+curve = SubResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 84.0499, 322.798 )
+
+[node name="RigidBody2D2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 511.611, 272.803 )
+
+[node name="RigidBody2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 195.614, 468.111 )
+
+[node name="RigidBody2D3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 868.09, 139.129 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 638.004, -10.0135 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -0.715271, 0 )
+shape = SubResource( 2 )
+
+[node name="brick2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 480.784, 150.203 )
+
+[node name="brick3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 581.229, 150.203 )
+
+[node name="brick4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 528.155, 118.823 )
+
+[node name="brick5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 681.673, 150.203 )
+
+[node name="brick6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 628.6, 118.823 )
