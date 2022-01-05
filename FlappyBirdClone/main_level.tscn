@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://plane_spriteframes.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://PlayerController.gd" type="Script" id=2]
@@ -52,6 +52,9 @@ scale_curve = SubResource( 11 )
 color_ramp = SubResource( 9 )
 hue_variation_random = 0.41
 
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 240, 65.5 )
+
 [node name="Level" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -103,6 +106,18 @@ template = ExtResource( 6 )
 
 [node name="Timer" type="Timer" parent="Spawner"]
 autostart = true
+
+[node name="Boundary" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
+position = Vector2( 241, 701 )
+shape = SubResource( 12 )
+
+[node name="Boundary2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary2"]
+position = Vector2( 240, -76 )
+shape = SubResource( 12 )
 
 [connection signal="player_died" from="KinematicBody2D" to="ParallaxBackground" method="_on_player_died"]
 [connection signal="player_died" from="KinematicBody2D" to="Spawner" method="_on_player_died"]

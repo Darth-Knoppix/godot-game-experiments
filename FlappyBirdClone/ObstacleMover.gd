@@ -16,6 +16,10 @@ func _ready():
 func _process(delta):
 	if not is_moving:
 		return
+		
+	if position.x < -100:
+		queue_free()
+		
 	position.x -= delta * 400
 
 
