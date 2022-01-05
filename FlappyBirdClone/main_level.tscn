@@ -1,0 +1,110 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://plane_spriteframes.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://PlayerController.gd" type="Script" id=2]
+[ext_resource path="res://puffLarge.png" type="Texture" id=3]
+[ext_resource path="res://ParallaxBackground.gd" type="Script" id=4]
+[ext_resource path="res://SpikeSpawner.gd" type="Script" id=5]
+[ext_resource path="res://Obstacle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://background.png" type="Texture" id=7]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 31.0644
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 33.0606
+
+[sub_resource type="Curve" id=6]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, -174.158 ), 0.0, 0.0, 0, 0, Vector2( 1, 297.115 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.882507 )
+colors = PoolColorArray( 0.94902, 0.882353, 0.768627, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 0.871643 ), 0.0, 0.0, 0, 0, Vector2( 0.650246, 0.698916 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0170976 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 42.25
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel_random = 0.64
+angle_random = 0.64
+angle_curve = SubResource( 7 )
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
+hue_variation_random = 0.41
+
+[node name="Level" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 209, 302 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="KinematicBody2D"]
+frames = ExtResource( 1 )
+animation = "green"
+playing = true
+
+[node name="Collider" type="Area2D" parent="KinematicBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D/Collider"]
+position = Vector2( 4, 0 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( 4, -3 )
+shape = SubResource( 1 )
+
+[node name="Explosion" type="Particles2D" parent="KinematicBody2D"]
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 70
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource( 5 )
+texture = ExtResource( 3 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource( 4 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1040, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource( 5 )
+template = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="Spawner"]
+autostart = true
+
+[connection signal="player_died" from="KinematicBody2D" to="ParallaxBackground" method="_on_player_died"]
+[connection signal="player_died" from="KinematicBody2D" to="Spawner" method="_on_player_died"]
+[connection signal="area_entered" from="KinematicBody2D/Collider" to="KinematicBody2D" method="_on_Collider_area_entered"]
+[connection signal="timeout" from="Spawner/Timer" to="Spawner" method="_on_Timer_timeout"]
